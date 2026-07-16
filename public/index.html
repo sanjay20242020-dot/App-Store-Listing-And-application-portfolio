@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI App Store Listing Generator</title>
+  <link rel="stylesheet" href="style.css?v=4" />
+</head>
+<body>
+  <!-- Animated aurora background -->
+  <div class="bg-animation" aria-hidden="true">
+    <span class="blob blob-1"></span>
+    <span class="blob blob-2"></span>
+    <span class="blob blob-3"></span>
+    <span class="blob blob-4"></span>
+    <div class="bg-grid"></div>
+  </div>
+
+  <header class="hero">
+    <h1>🚀 AI App Store Listing Generator</h1>
+    <p>Upload your app screenshots and details — get a complete App Store &amp; Google Play listing: descriptions, keywords, release notes, FAQs, privacy content and more.</p>
+    <div id="modeBanner" class="banner hidden"></div>
+  </header>
+
+  <!-- ============ TOP TAB HEADER ============ -->
+  <nav class="tabs" role="tablist" aria-label="Sections">
+    <button class="tab-btn active" role="tab" aria-selected="true" data-tab="generator" id="tabBtn-generator">
+      🚀 AI Listing Generator
+    </button>
+    <button class="tab-btn" role="tab" aria-selected="false" data-tab="portfolio" id="tabBtn-portfolio">
+      📱 Mobile Application Portfolio
+    </button>
+  </nav>
+
+  <!-- ============ TAB 1: AI LISTING GENERATOR (completed) ============ -->
+  <div id="tab-generator" class="tab-panel" role="tabpanel" aria-labelledby="tabBtn-generator">
+  <main class="layout">
+    <!-- ============ FORM ============ -->
+    <section class="card form-card">
+      <h2>1. App details</h2>
+      <form id="listingForm">
+        <label>App name <span class="req">*</span>
+          <input type="text" name="appName" id="appName" placeholder="e.g. TaskFlow" required maxlength="80" />
+        </label>
+        <label>Company / developer name
+          <input type="text" name="companyName" id="companyName" placeholder="e.g. Dotsquares Ltd" maxlength="120" />
+        </label>
+
+        <label class="full">What does your app do? <span class="req">*</span>
+          <textarea name="description" id="description" rows="3" required maxlength="1500"
+            placeholder="e.g. Helps busy teams organize tasks with smart reminders and shared boards"></textarea>
+        </label>
+
+        <label class="full">Key features <span class="hint">(one per line or comma-separated)</span>
+          <textarea name="features" id="features" rows="4"
+            placeholder="Smart reminders&#10;Shared team boards&#10;Offline mode&#10;Calendar sync"></textarea>
+        </label>
+
+        <label>Platform
+          <select name="platform" id="platform">
+            <option value="both iOS and Android">iOS + Android</option>
+            <option value="iOS only">iOS only</option>
+            <option value="Android only">Android only</option>
+            <option value="Web">Web</option>
+          </select>
+        </label>
+        <label>Category
+          <input type="text" name="category" id="category" placeholder="e.g. Productivity" maxlength="60" />
+        </label>
+        <label>Target audience
+          <input type="text" name="audience" id="audience" placeholder="e.g. busy professionals" maxlength="120" />
+        </label>
+        <label>Pricing model
+          <select name="pricing" id="pricing">
+            <option value="">Not specified</option>
+            <option value="free">Free</option>
+            <option value="freemium (free with in-app purchases)">Freemium</option>
+            <option value="paid (one-time purchase)">Paid</option>
+            <option value="subscription-based">Subscription</option>
+          </select>
+        </label>
+        <label>Output language
+          <input type="text" name="language" id="language" value="English" maxlength="40" />
+        </label>
+        <label>Copyright <span class="hint">(auto if blank)</span>
+          <input type="text" name="copyright" id="copyright" placeholder="© 2026 Your Company" maxlength="200" />
+        </label>
+
+        <h2 class="full">Submission details <span class="hint">(optional — inserted exactly as typed)</span></h2>
+        <label>Contact first name
+          <input type="text" name="firstName" id="firstName" maxlength="80" />
+        </label>
+        <label>Contact last name
+          <input type="text" name="lastName" id="lastName" maxlength="80" />
+        </label>
+        <label>Contact email
+          <input type="email" name="contactEmail" id="contactEmail" placeholder="you@company.com" maxlength="160" />
+        </label>
+        <label>Phone (with country code)
+          <input type="text" name="phone" id="phone" placeholder="+1 555 123 4567" maxlength="40" />
+        </label>
+        <label>Website URL
+          <input type="url" name="website" id="website" placeholder="https://…" maxlength="300" />
+        </label>
+        <label>Support URL
+          <input type="url" name="supportUrl" id="supportUrl" placeholder="https://…/support" maxlength="300" />
+        </label>
+        <label>Marketing URL
+          <input type="url" name="marketingUrl" id="marketingUrl" placeholder="https://…" maxlength="300" />
+        </label>
+        <label>Privacy Policy URL
+          <input type="url" name="privacyPolicyUrl" id="privacyPolicyUrl" placeholder="https://…/privacy" maxlength="300" />
+        </label>
+
+        <label class="full">Keyword ideas <span class="hint">(optional)</span>
+          <input type="text" name="keywordsHint" id="keywordsHint" placeholder="e.g. todo list, team tasks, planner" maxlength="200" />
+        </label>
+
+        <label class="full">What changed in this release? <span class="hint">(optional — used for release notes)</span>
+          <textarea name="whatsNew" id="whatsNew" rows="2" placeholder="e.g. Added dark mode and widget support"></textarea>
+        </label>
+
+        <h2 class="full">2. Screenshots <span class="hint">(optional, up to 6)</span></h2>
+        <div id="dropZone" class="drop-zone full" tabindex="0">
+          <input type="file" id="fileInput" accept="image/png,image/jpeg,image/webp,image/gif" multiple hidden />
+          <p>📱 Drag &amp; drop screenshots here<br /><span class="hint">or click to browse — PNG, JPG, WebP, GIF · max 8 MB each</span></p>
+        </div>
+        <div id="previews" class="previews full"></div>
+
+        <button type="submit" id="generateBtn" class="primary-btn full">✨ Generate listing</button>
+      </form>
+    </section>
+
+    <!-- ============ RESULTS ============ -->
+    <section class="card results-card">
+      <div class="results-header">
+        <h2>3. Your listing</h2>
+        <div id="exportBar" class="export-bar hidden">
+          <button data-export="docx" class="export-btn">⬇ Word</button>
+          <button data-export="md" class="export-btn">⬇ Markdown</button>
+          <button data-export="json" class="export-btn">⬇ JSON</button>
+          <button data-export="txt" class="export-btn">⬇ Text</button>
+          <button id="copyAllBtn" class="export-btn">📋 Copy all</button>
+        </div>
+      </div>
+      <div id="warning" class="banner warn hidden"></div>
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p id="loadingText">Analyzing your app and writing your listing…</p>
+      </div>
+      <div id="results" class="results">
+        <p class="placeholder">Fill in the form and hit <strong>Generate listing</strong>. Results appear here with per-field copy buttons and store character limits.</p>
+      </div>
+    </section>
+  </main>
+  </div><!-- /tab-generator -->
+
+  <!-- ============ TAB 2: MOBILE APPLICATION PORTFOLIO ============ -->
+  <div id="tab-portfolio" class="tab-panel hidden" role="tabpanel" aria-labelledby="tabBtn-portfolio">
+    <main class="portfolio-layout">
+      <!-- ---------- Add / edit form ---------- -->
+      <section class="card form-card">
+        <h2 id="portfolioFormTitle">Add a mobile app</h2>
+        <p class="hint">Fill in the app profile and click <strong>Add app</strong>. Entries are saved to the MySQL database.</p>
+        <form id="portfolioForm" class="portfolio-form">
+          <label><span class="cap">App name <span class="req">*</span></span>
+            <input type="text" name="appName" id="p_appName" placeholder="e.g. HealthTrack" required maxlength="80" />
+          </label>
+
+          <label><span class="cap">Status <span class="req">*</span></span>
+            <select name="status" id="p_status" required>
+              <option value="Live">Live</option>
+              <option value="In Development">In Development</option>
+              <option value="POC">POC</option>
+            </select>
+          </label>
+
+          <label><span class="cap">Business domain <span class="req">*</span></span>
+            <input type="text" name="domain" id="p_domain" list="domainList" placeholder="e.g. Healthcare" required maxlength="60" />
+            <datalist id="domainList">
+              <option value="Healthcare"></option>
+              <option value="FinTech"></option>
+              <option value="Logistics"></option>
+              <option value="Social"></option>
+              <option value="E-commerce"></option>
+              <option value="Education"></option>
+              <option value="Travel"></option>
+              <option value="Entertainment"></option>
+              <option value="Productivity"></option>
+              <option value="Real Estate"></option>
+            </datalist>
+          </label>
+
+          <label><span class="cap">App icon <span class="hint">(logo image)</span></span>
+            <input type="file" name="icon" id="p_icon" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" />
+            <div id="p_iconPreview" class="icon-preview hidden"></div>
+          </label>
+
+          <label class="full"><span class="cap">Short description <span class="hint">(1–2 line overview)</span></span>
+            <textarea name="shortDescription" id="p_shortDescription" rows="2" maxlength="240"
+              placeholder="e.g. A patient-facing app for booking appointments and tracking prescriptions."></textarea>
+          </label>
+
+          <label class="full"><span class="cap">Key features <span class="hint">(top 5–8, one per line)</span></span>
+            <textarea name="features" id="p_features" rows="5"
+              placeholder="Appointment booking&#10;Prescription tracking&#10;Video consultations&#10;Health reports&#10;Reminders"></textarea>
+          </label>
+
+          <label class="full"><span class="cap">Technology stack <span class="hint">(comma-separated)</span></span>
+            <input type="text" name="techStack" id="p_techStack" placeholder="React Native, Firebase, Node.js, Swift" maxlength="240" />
+          </label>
+
+          <label><span class="cap">App Store link <span class="hint">(iOS)</span></span>
+            <input type="url" name="appStoreUrl" id="p_appStoreUrl" placeholder="https://apps.apple.com/…" maxlength="300" />
+          </label>
+
+          <label><span class="cap">Play Store link <span class="hint">(Android)</span></span>
+            <input type="url" name="playStoreUrl" id="p_playStoreUrl" placeholder="https://play.google.com/…" maxlength="300" />
+          </label>
+
+          <label class="full"><span class="cap">Figma link <span class="hint">(design file)</span></span>
+            <input type="url" name="figmaUrl" id="p_figmaUrl" placeholder="https://www.figma.com/file/…" maxlength="300" />
+          </label>
+
+          <div class="form-actions full">
+            <button type="submit" id="portfolioSubmitBtn" class="primary-btn">➕ Add app</button>
+            <button type="button" id="portfolioCancelBtn" class="ghost-btn hidden">Cancel edit</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ---------- Filters + list ---------- -->
+      <section class="card list-card">
+        <div class="results-header">
+          <h2>Portfolio <span id="portfolioCount" class="count-pill">0</span></h2>
+          <span id="storageUsage" class="storage-usage"></span>
+        </div>
+
+        <div class="filter-bar">
+          <input type="search" id="filterSearch" placeholder="🔍 Search by name, description or tech…" />
+          <select id="filterStatus">
+            <option value="">All statuses</option>
+            <option value="Live">Live</option>
+            <option value="In Development">In Development</option>
+            <option value="POC">POC</option>
+          </select>
+          <select id="filterDomain">
+            <option value="">All domains</option>
+          </select>
+          <button type="button" id="clearFiltersBtn" class="ghost-btn">Clear</button>
+        </div>
+
+        <div id="portfolioList" class="portfolio-grid"></div>
+        <p id="portfolioEmpty" class="placeholder hidden">No apps yet — add your first mobile app using the form.</p>
+      </section>
+    </main>
+  </div><!-- /tab-portfolio -->
+
+  <!-- App detail modal -->
+  <div id="appModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-label="App details">
+    <div class="modal-card">
+      <button type="button" id="modalClose" class="modal-close" aria-label="Close">✕</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Runs locally on Node.js · AI content is a starting point — always review before publishing.</p>
+  </footer>
+
+  <script src="app.js?v=3"></script>
+</body>
+</html>
