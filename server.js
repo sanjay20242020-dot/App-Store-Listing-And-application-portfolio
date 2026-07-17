@@ -61,8 +61,17 @@ async function initMysql() {
       user: MYSQL.user,
       password: MYSQL.password,
       database: MYSQL.database,
-      waitForConnections: true,
-      connectionLimit: 10,
+     waitForConnections: true,
+
+  connectionLimit: 10,
+
+  connectTimeout: 30000,
+
+  ssl: {
+
+    rejectUnauthorized: false,
+
+  },
     });
 
     // features/techStack are stored as JSON strings in TEXT columns (portable
