@@ -26,7 +26,7 @@ const MYSQL = {
   port: Number(process.env.MYSQL_PORT) || 3306,
   user: process.env.MYSQL_USER || "root",
   password: process.env.MYSQL_PASSWORD || "",
-  database: process.env.MYSQL_DATABASE || "app_portfolio",
+  database: process.env.MYSQL_DATABASE || "railway",
 };
 // Treat MySQL as "configured" when connection details are present in .env.
 const DB_CONFIGURED = Boolean(process.env.MYSQL_HOST || process.env.MYSQL_USER || process.env.MYSQL_DATABASE);
